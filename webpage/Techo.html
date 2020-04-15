@@ -1,0 +1,241 @@
+<html>
+    <head> 
+        <title>Techo | MORA: Tendedero inteligente;</title> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--<meta HTTP-EQUIV="REFRESH" CONTENT="10;URL=/">-->
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        
+        <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+        rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma-carousel@4.0.4/dist/css/bulma-carousel.min.css">
+        <link rel="stylesheet" href="main.css">
+        <script src="Tend.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        
+        
+<script>
+
+function LoadFinance()
+{
+    $(document).ready(function(){
+         $.getJSON("https://api.thingspeak.com/channels/1022434/fields/1/last.json", function(result){
+                if (result.field1==0.0){
+                    $("#rain").html("Sin lluvia");
+                    var dd=$("#roof").html();
+                 
+                    if (dd=="Espere"){
+                            $("#roof").html("Abierto");
+                    }
+                    
+                }else{
+                    $("#rain").html("Hay lluvia"); 
+                    
+                    if ($("#roof").html()=="                    Espere\n              "){
+                            $("#roof").html("Cerrado");
+                     }
+                     }
+                });
+        });
+}
+setInterval(LoadFinance,5000);
+
+</script>
+        
+        
+    </head>
+    
+<body> 
+        
+    <div class="hero-head">
+    <header class="navbar is-info">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="index.html">
+            <h1 class="title is-1 has-text-white has-text-weight-bold">MORA</h1>
+          </a>
+          <!---div role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenuHeroC">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </div--->
+        </div>
+        <div id="navbarMenuHeroC" class="navbar-menu" >
+          <div class="navbar-end">
+            <a class="navbar-item" href="index.html">
+                <h1  class="text is-size-5 has-text-white"> Inicio</h1>
+            </a>
+            <a href="Sobre.html" class="navbar-item">
+                <h1  class="text is-size-5 has-text-white">Sobre el proyecto</h1>
+            </a>
+            
+            <span class="navbar-item is-active">
+              <a href="index.html" class="button is-link is-inverted">
+                <span class="icon">
+                  <i class="fas fa-user fa-lg "></i>
+                </span>
+                <span class="text is-size-5 has-text-info ">Cerrar sesión</span>
+              </a>
+            </span>
+            <span class="navbar-item is-active">
+              <a href="Sesion.html" class="button is-link is-inverted">
+                <!--span class="icon">
+                  <i class="fas fa-user fa "></i>
+                </span-->
+                <span class="text is-size-5 has-text-info ">Sesión</span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+<section class="hero is-link">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title is-2 is-bold is-family-sans-serif">
+        Estado del techo
+      </h1>
+      <h2 class="subtitle">
+        Revise el estado de su techo
+          
+      </h2>
+    </div>
+  </div>
+</section><br> 
+        
+    <section class="columns box">
+    <div class="column">
+        <div class="card">
+            <div class = "card-container box">
+            <h1 class= "title has-text-centered is-size-3"> Estado del techo <i class="fas fa-home"></i></h1>
+              <div id="roof" class="notification is-info text is-size-2 has-text-centered">Espere</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="column">
+        <div class="card">
+            <div class = "card-container box">
+            <h1 class= "title has-text-centered is-size-3"> Estado del clima     <i class="fas fa-tint"></i></h1> 
+              <div id="rain" class=" notification is-info text is-size-2 has-text-centered">Espere</div>
+            </div>
+        </div>
+
+    </div>
+    
+    
+</section>
+    
+<section class="box">
+    
+    <div class="card">
+        <div class = "card-container box">
+        <h1 class= "title has-text-centered is-size-2"> ¿Qué desea hacer? <i class="fas fa-home"></i></h1>
+        <div class="columns box">
+            <div class="column">
+                <a >
+                        <button class="button is-success is-fullwidth is-size-4" onclick="myclick('n')">Abrir techo</button>
+                </a>
+            </div>
+            <div class="column">
+                <a   >
+                        <button class="button is-danger is-fullwidth is-size-4" onclick="myclick('y')">Cerrar techo</button>
+                </a>
+            </div>
+        </div>
+            
+        </div>
+    </div>
+
+</section>
+ <footer class="footer has-background-info">
+      <div class="content has-text-centered has-text-white">
+        <div class="columns">
+          <div class="column">
+            <h6>Sobre nosotros</h6>
+            <p class="text has-text-center is-size-5">
+                Clase de IoT: Fundamentos y aplicaciones, David Rojas, Lina Amaya, Nicolás Duque
+            </p>
+              <img src=Images/IoT.png>  
+          </div>
+          <div class="column">
+            <h6>Contáctenos</h6>
+            <ul>
+              <li >
+                  <a href="https://twitter.com/Tendint5"  class="icon is-large">
+                      <i  class="fab fa-twitter-square fa-2x"></i>&nbsp;
+                      <p class="text is-size-3">Twitter</p>
+                  </a>
+              </li>
+              <li>
+                  <a href="mailto:tendint@yahoo.com" class="icon is-large">
+                      <i class="fas fa-envelope-square fa-2x"> </i>&nbsp;
+                      <p class="text is-size-3"> Correo</p>
+                  </a>
+              </li>
+              <li>
+                  <a href="https://github.com/nduque18/TendederoInteligente" class="icon is-large" >
+                      <i class="fab fa-github-square fa-2x"></i>&nbsp;
+                      <p class="text is-size-3"> Github</p>
+                  </a>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="column">
+            <h6>Principal</h6>
+            <ul>
+              <li>
+                  <a href="index.html"  class="text is-size-3">
+                      Inicio
+                  </a>
+              </li>
+              <li>
+                  <a href="Sobre.html" class="text is-size-3">
+                      Sobre el proyecto
+                  </a>
+              </li>
+              <li>
+                  <a href="index.html" class="text is-size-3 ">
+                      Cerrar sesión
+                  </a>
+              </li>
+              <li>
+                  <a href="Sesion.html" class="text is-size-3 ">
+                      Sesión
+                  </a>
+              </li>
+            </ul>
+          </div>
+          <!--div class="column">
+            <h6>Subscribe</h6>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-medium" type="email" placeholder="Email">
+              <span class="icon is-left">
+              <i class="fa fa-envelope"></i>
+              </span>
+            </div>
+            <a class="button is-success is-rounded">Subscribe</a>
+          </div>
+        </div>
+      </div-->
+      </div>
+    </div>
+  </footer>  
+    <div class="has-background-link has-text-white bottom">
+      <div class="container is-fluid">
+        <div class="columns">
+          <div class="column">
+            <p>MORA: Tendedero Inteligente.</p>
+          </div>
+          
+        </div>
+      </div>
+    </div>  
+    
+    </body>
+</html>

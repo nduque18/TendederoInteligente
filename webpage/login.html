@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+  <title>Iniciar Sesión | MORA: Tendedero inteligente</title>
+    
+  <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
+
+    <link rel="stylesheet" href="main.css">
+
+<script src="Tend.js"></script>
+    
+</head>
+<body>
+     <div class="hero-head">
+    <header class="navbar is-info">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="index.html">
+            <h1 class="title is-1 has-text-white has-text-weight-bold">MORA</h1>
+          </a>
+          <!---div role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenuHeroC">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </div--->
+        </div>
+        <div id="navbarMenuHeroC" class="navbar-menu" >
+          <div class="navbar-end">
+            <a class="navbar-item" href="index.html">
+                <h1  class="text is-size-5 has-text-white"> Inicio</h1>
+            </a>
+            <a href="Sobre.html" class="navbar-item">
+                <h1  class="text is-size-5 has-text-white">Sobre el proyecto</h1>
+            </a>
+            
+            <span class="navbar-item is-active">
+              <a href="login.html" class="button is-link is-inverted">
+                <span class="icon">
+                  <i class="fas fa-user fa-lg "></i>
+                </span>
+                <span class="text is-size-5 has-text-info ">Iniciar sesión</span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+<section class="hero is-link">
+  <div class="hero-body">
+    <div class="container">
+      <h1 class="title is-2 is-bold is-family-sans-serif">
+        Iniciar Sesión
+      </h1>
+      <h2 class="subtitle">
+        Inicie sesión para acceder a su sistema
+      </h2>
+    </div>
+  </div>
+</section>
+<section class="login is-fullheight">
+      <div class="login-body">
+        <div class="container v-middle">
+          <div class="columns login-page">
+              <div class="column is-5 login-sidebar is-hidden-mobile">
+                <div class="login-gradient-background">
+                  <h1>Inicio de sesión</h1>
+                </div>
+              </div>
+              <div class="column is-7 login-form-wrapper">
+                <div class="column is-12 has-text-right register-btn">
+                  <a class="btn" name="button" href="signup.html">Registrarse</a>
+                </div>
+                <div class="column is-12 field-box">
+                  <div class="column is-7 is-offset-1">
+                    <h1 class="login-heading">Inicio de sesión de MORA</h1>
+                    <p class="login-subheading">Ingrese sus datos para acceder a la información de monitoreo de su sistema</p>
+                    <form method="" action="">
+                      <div class="field">
+                        <p class="control has-icons-left has-icons-right">
+                          <input class="input is-medium" type="email" placeholder="Email" value="" name="email" autofocus="" required>
+                          <span class="icon is-medium is-left">
+                            <i class="fa fa-envelope"></i>
+                          </span>
+                          <span class="icon is-small is-right">
+                            <i class="fa fa-check"></i>
+                          </span>
+                        </p>
+                      </div>
+                      <div class="field">
+                        <p class="control has-icons-left has-icons-right">
+                          <input class="input is-medium" type="password" placeholder="Contraseña" name="password" required>
+                          <span class="icon is-medium is-left">
+                            <i class="fa fa-lock"></i>
+                          </span>
+                          <span class="icon is-small is-right">
+                            <i class="fa fa-eye"></i>
+                          </span>
+                        </p>
+                      </div>
+                      <div class="field is-grouped is-grouped-centered login-btn-group">
+                        <p class="control">
+                          <a class="login-btn" >
+                            <button  onclick="check(this.form)" class="button is-primary is-fullwidth">
+                                <span>Iniciar Sesión</span>
+                            </button>
+                          </a>
+                        </p>
+                        <!--p class="control">
+                          <a class="forgot-link" >Olvidé mi contraseña</a>
+                        </p-->
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <!-- is-8 ends -->
+          </div>
+        </div>
+        <!-- div.container ends -->
+      </div>
+  </section>
+    
+    <footer class="footer has-background-info">
+      <div class="content has-text-centered has-text-white">
+        <div class="columns">
+          <div class="column">
+            <h6>Sobre nosotros</h6>
+            <p class="text has-text-center is-size-5">
+                Clase de IoT: Fundamentos y aplicaciones, David Rojas, Lina Amaya, Nicolás Duque
+            </p>
+              <img src=Images/IoT.png>  
+          </div>
+          <div class="column">
+            <h6>Contáctenos</h6>
+            <ul>
+              <li >
+                  <a href="https://twitter.com/Tendint5"  class="icon is-large">
+                      <i  class="fab fa-twitter-square fa-2x"></i>&nbsp;
+                      <p class="text is-size-3">Twitter</p>
+                  </a>
+              </li>
+              <li>
+                  <a href="mailto:tendint@yahoo.com" class="icon is-large">
+                      <i class="fas fa-envelope-square fa-2x"> </i>&nbsp;
+                      <p class="text is-size-3"> Correo</p>
+                  </a>
+              </li>
+              <li>
+                  <a href="https://github.com/nduque18/TendederoInteligente" class="icon is-large" >
+                      <i class="fab fa-github-square fa-2x"></i>&nbsp;
+                      <p class="text is-size-3"> Github</p>
+                  </a>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="column">
+            <h6>Principal</h6>
+            <ul>
+              <li>
+                  <a href="index.html"  class="text is-size-3">
+                      Inicio
+                  </a>
+              </li>
+              <li>
+                  <a href="Sobre.html" class="text is-size-3">
+                      Sobre el proyecto
+                  </a>
+              </li>
+              <li>
+                  <a href="login.html" class="text is-size-3 ">
+                      Iniciar sesión
+                  </a>
+              </li>
+              
+            </ul>
+          </div>
+          <!--div class="column">
+            <h6>Subscribe</h6>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-medium" type="email" placeholder="Email">
+              <span class="icon is-left">
+              <i class="fa fa-envelope"></i>
+              </span>
+            </div>
+            <a class="button is-success is-rounded">Subscribe</a>
+          </div>
+        </div>
+      </div-->
+      </div>
+    </div>
+  </footer>  
+    <div class="has-background-link has-text-white bottom">
+      <div class="container is-fluid">
+        <div class="columns">
+          <div class="column">
+            <p>MORA: Tendedero Inteligente.</p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    
+    
+</body>

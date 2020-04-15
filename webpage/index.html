@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+  <title>MORA: Tendedero inteligente</title>
+    
+  <link crossorigin="anonymous" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+        rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.0/css/bulma.css">
+<link rel="stylesheet" href="main.css">
+    
+</head>
+<body>
+      
+    <!-- NAVBAR -->
+    <!--div class="block">
+      <nav class="nav">
+        <div class="nav-left">
+          <a href="" class="nav-item">
+            <h1 class="title is-3">Traversy Media</h1>
+          </a>
+        </div>
 
+        <div class="nav-center">
+          <a href="" class="nav-item">
+            <span class="icon">
+              <i class="fa fa-github"></i>
+            </span>
+          </a>
+          <a href="" class="nav-item">
+            <span class="icon">
+              <i class="fa fa-twitter"></i>
+            </span>
+          </a>
+        </div>
+
+        <div class="nav-right nav-menu is-active">
+          <a href="#" class="nav-item">Home</a>
+          <a href="#" class="nav-item">About Us</a>
+          <a href="#" class="nav-item">Contact</a>
+        </div>
+      </nav>
+    </div>
+      
+    <!-- HERO -->
+<section class="hero header-image is-info is-inverted is-fullheight ">
+  <!-- Hero head: will stick at the top -->
+  <div class="hero-head">
+    <header class="navbar">
+      <div class="container">
+        <div class="navbar-brand">
+          <a class="navbar-item" href="index.html">
+            <h1 class="title is-1 has-text-link has-text-weight-bold">MORA</h1>
+          </a>
+          <!---div role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMenuHeroC">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </div--->
+        </div>
+        <div id="navbarMenuHeroC" class="navbar-menu is-active" >
+          <div class="navbar-end">
+            <a class="navbar-item is-active" href="index.html">
+                <h1  class="text is-size-5 has-text-white"> Inicio</h1>
+            </a>
+            <a href="Sobre.html" class="navbar-item">
+                <h1  class="text is-size-5 has-text-white">Sobre el proyecto</h1>
+            </a>
+            
+            <span class="navbar-item">
+              <a href="login.html" class="button is-link is-inverted">
+                <span class="icon">
+                  <i class="fas fa-user fa-lg "></i>
+                </span>
+                <span class="text is-size-5 has-text-info">Iniciar sesión</span>
+              </a>
+            </span>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- Hero content: will be in the middle -->
+  <div class="hero-body">
+    <div class="container box boxi has-text-left">
+      <h1 class="title is-size-1">
+        ¡Mamá, olvide la ropa afuera!
+      </h1>
+      <h2 class="subtitle is-size-4">
+        MORA: Sistema de tendedero inteligente para evitar que la ropa no se moje con la lluvia mientras no estás en casa
+      </h2>
+        <a href="Sobre.html" class="button is-info is-large is-pulled-right">Conoce más</a>
+    </div>
+  </div>
+
+  <!-- Hero footer: will stick at the bottom -->
+  <div class="hero-foot">
+    <nav class="tabs is-boxed  is-fullwidth">
+      <div class="container">
+        <ul>
+          <li class="tab is-active text has-text-white has-text-justified is-size-5 boxi" onclick="openTab(event,'que')"><a>Qué haremos</a></li>
+          <li class="tab text has-text-white has-text-justified is-size-5 boxi" onclick="openTab(event,'como')"><a>Cómo lo haremos</a></li>
+          <li class="tab text has-text-white has-text-justified is-size-5 boxi" onclick="openTab(event,'Med')"><a>Medición</a></li>
+        </ul>
+      </div>
+    </nav>
+    
+  </div>
+</section>
+
+ <div class="container section boxi2">
+    <div id="que" class="content-tab block" >
+      <p class="text has-text-white has-text-justified is-size-5">
+        Un tendedero inteligente capaz de medir algunas variables determinantes (Temperatura, humedad, intensidad de luz, presión atmosférica) para predecir una posible precipitación.</p>
+    </div>
+    <div id="como" class="content-tab block " style="display:none">
+        <p class="text has-text-white has-text-justified is-size-5" >
+          Detectando la presencia de lluvia para alertar al usuario y poder mover un techo de manera remota para evitar que la ropa tendida en el exterior se moje.</p>
+    </div>
+    <div id="Med" class="content-tab block" style="display:none">
+       <p class="text has-text-white has-text-justified is-size-5">
+         Las variables medidas serán enviadas a internet y podrán ser visualizadas por el usuario a través de una página web (o aplicación), conociendo el estado del clima y del techo.<br>
+        <a href="Sobre.html#sensores" class="button is-light is-outlined is-pulled-right">Conoce los sensores</a> <br>
+        </p>
+       
+    </div>
+</div>
+  
+<!-- GRID SYSTEM -->
+<div class="container box">
+    <h1 class="title is-2 is-bold is-family-sans-serif">Algunas reseñas</h1>
+    <div class="columns">
+        <div class="column">
+          <div class="card">
+            <div class="card-content">
+                <p class="subtitle is-italic is-size-4 has-text-right">
+                "¡No he tenido que volver a relavar la ropa cuando llueve! ¡El mejor sistema!"
+                </p>
+                <p class="subtitle has-text-weight-bold is-size-5 has-text-left">
+                - Mamá contenta
+                </p>
+            </div>
+           </div>
+        </div>
+    <div class="column">
+        <div class="card">
+            <div class="card-content">
+              <p class="text is-italic is-size-4 has-text-right">
+              "MORA es un concepto revolucionario que va a cambiar la vida de muchos hogares en el mundo."
+              </p>
+              <p class="subtitle has-text-weight-bold is-size-5 has-text-left">
+                - The New York Times
+              </p>
+            </div>
+        </div>
+    </div>
+    <div class="column">
+          <div class="card">
+            <div class="card-content">
+              <p class="text is-italic is-size-4 has-text-right">
+              "Este sistema es único en el mundo y muy innovador ¡merece un 5!"
+              </p>
+              <p class="subtitle has-text-weight-bold is-size-5 has-text-left">
+                - Anónimo (pero habla con la verdad)
+              </p>  
+            </div>
+           </div>
+        </div>
+    </div>
+</div>
+    
+
+<footer class="footer has-background-info">
+      <div class="content has-text-centered has-text-white">
+        <div class="columns">
+          <div class="column">
+            <h6>Sobre nosotros</h6>
+            <p class="text has-text-center is-size-5">
+                Clase de IoT: Fundamentos y aplicaciones, David Rojas, Lina Amaya, Nicolás Duque
+            </p>
+              <img src=Images/IoT.png>  
+          </div>
+          <div class="column">
+            <h6>Contáctenos</h6>
+            <ul>
+              <li >
+                  <a href="https://twitter.com/Tendint5"  class="icon is-large">
+                      <i  class="fab fa-twitter-square fa-2x"></i>&nbsp;
+                      <p class="text is-size-3">Twitter</p>
+                  </a>
+              </li>
+              <li>
+                  <a href="mailto:tendint@yahoo.com" class="icon is-large">
+                      <i class="fas fa-envelope-square fa-2x"> </i>&nbsp;
+                      <p class="text is-size-3"> Correo</p>
+                  </a>
+              </li>
+              <li>
+                  <a href="https://github.com/nduque18/TendederoInteligente" class="icon is-large" >
+                      <i class="fab fa-github-square fa-2x"></i>&nbsp;
+                      <p class="text is-size-3"> Github</p>
+                  </a>
+              </li>
+              
+            </ul>
+          </div>
+          <div class="column">
+            <h6>Principal</h6>
+            <ul>
+              <li>
+                  <a href="index.html"  class="text is-size-3">
+                      Inicio
+                  </a>
+              </li>
+              <li>
+                  <a href="Sobre.html" class="text is-size-3">
+                      Sobre el proyecto
+                  </a>
+              </li>
+              <li>
+                  <a href="login.html" class="text is-size-3 ">
+                      Iniciar sesión
+                  </a>
+              </li>
+              
+            </ul>
+          </div>
+          <!--div class="column">
+            <h6>Subscribe</h6>
+            <div class="control has-icons-left has-icons-right">
+              <input class="input is-medium" type="email" placeholder="Email">
+              <span class="icon is-left">
+              <i class="fa fa-envelope"></i>
+              </span>
+            </div>
+            <a class="button is-success is-rounded">Subscribe</a>
+          </div>
+        </div>
+      </div-->
+      </div>
+    </div>
+  </footer>  
+    <div class="has-background-link has-text-white bottom">
+      <div class="container is-fluid">
+        <div class="columns">
+          <div class="column">
+            <p>MORA: Tendedero Inteligente.</p>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+            
+      <script src="Tend.js"></script>
+    
+</body>
+</html>
