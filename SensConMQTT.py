@@ -131,7 +131,7 @@ while True:
         p,altitude = pressure()
         last_mesurement_time = current_time
         
-        payload = "field1="+str(t)+"&field2="+str(temp)+"&field3="+str(h)+"&field4="+str(l)+"&field5="+str(p)+"&field6="+str(altitude)+"&field7="+str(rain)
+        payload = "field2="+str(temp)+"&field3="+str(h)+"&field4="+str(l)+"&field5="+str(p)+"&field6="+str(altitude)
         
         client.connect()
         client.publish(topic, payload)
