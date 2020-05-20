@@ -1,0 +1,367 @@
+#include <ESP8266WiFi.h>
+#include <PubSubClient.h>
+#include <Servo.h>
+
+#define Campo_Angulo 0
+#define Campo_Data 1
+#define Campo_Lluvia 2
+#define Campo_Puerta 3
+
+
+#ifndef STASSID
+#define STASSID "Opportunity"
+#define STAPSK  "BenjiBw07"
+#endif
+
+const char* ssid     = STASSID;
+const char* password = STAPSK;
+
+
+const char* server = "mqtt.thingspeak.com";
+char mqttUserName[] = "Nodo de Lluvia";                // Use any name.
+char mqttPass[] = " GEZ3FMKWWSDQFQLU";                 // Change to your MQTT API key from Account > MyProfile.
+long readChannelID = 1022434;
+char readAPIKey[] = "12HYODTIBD4H6LRE";
+long writeChannelID = 1022434;
+char writeAPIKey[] = "ANZ6JAHJLQ7C40SU";
+
+unsigned long myTalkBackID = 38530;
+const char* myTalkBackKey = "HRZHYYP034GJC5DA";
+
+
+
+
+WiFiClient client;                                    // Initialize the Wi-Fi client library.
+PubSubClient mqttClient( client );                    // Initialize the PuBSubClient library.
+Servo CPuerta;  // Create servo object to control a servo .
+
+int fieldsToPublish[8] = {1, 1, 1, 1, 0, 0, 0, 0};    // Change to allow multiple fields.
+float dataToPublish[8];                               // Holds your field data.
+int changeFlag = 0;                                   // Let the main loop know ther is new data to set.
+int servo_pos = 0;                                    // Servo position
+
+
+
+// Handle messages from MQTT subscription.
+//int mqttSubscriptionCallback(char* topic, byte* payload, unsigned int length);
+
+// Generate a unique client ID and connect to MQTT broker.
+void mqttConnect();
+
+// Subscribe to a field or feed from a ThingSpeak channel.
+//int mqttSubscribe( long subChannelID,int field,char* readKey, int unSub);
+
+// Publish messages to a channel feed.
+void mqttPublish(long pubChannelID, char* pubWriteAPIKey, float dataArray[], int fieldArray[]);
+
+// Connect to a given Wi-Fi SSID
+int connectWifi();
+
+// Measure the Wi-Fi signal strength.
+void updateRSSIValue();
+
+// Build a random client ID for MQTT connection.
+void getID(char clientID[], int idLength);
+
+//void TalkBack();
+
+int httpPOST(String uri, String postMessage, String &response);
+
+unsigned long TiempoA = 0;
+unsigned long TiempoP = 0;
+unsigned long Intervalo = 0;
+const int PinLluvia = 16;
+const int PinPuerta = 2;
+
+int ELluvia = 0; //Estado de la lluvia
+int APuerta = 180; //Angulo de la puerta
+int EPuerta = 0; //Estado de la puerta
+int Lluvia = 0; //Lectura de la Lluvia
+int Puerta = 0; //Lectura de la puerta
+
+
+
+void setup() {
+  Serial.begin( 115200 );
+  Serial.println( "Start" );
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin( ssid, password );
+  connectWifi();  // Connect to Wi-Fi network.
+  mqttClient.setServer( server, 1883 ); // Set the MQTT broker details.
+  CPuerta.attach(14);  // Attach the servo on GIO2 to the servo object.
+  CPuerta.write(APuerta);  // Start in the middle.
+  pinMode (PinLluvia, INPUT);
+  pinMode (PinPuerta, INPUT);
+}
+
+void loop() {
+  if (WiFi.status() != WL_CONNECTED) {
+    connectWifi();
+  }
+
+  if (!mqttClient.connected())
+  {
+    mqttConnect(); // Connect if MQTT client is not connected.
+  }
+
+
+  Lluvia = digitalRead(PinLluvia);
+  Puerta = digitalRead(PinPuerta);
+  //Serial.println( "Esto es puerta: " + String(EPuerta));
+  if (Lluvia == 1) {
+    ELluvia = 0;
+    //APuerta = 180;
+   // CPuerta.write(APuerta);
+    Serial.println( "No hay lluvia y el valor es: " + String(ELluvia));
+  } else {
+    ELluvia = 1;
+    //APuerta = 0;
+    Serial.println( "Hay lluvia y el valor es: " + String(ELluvia));
+    //CPuerta.write(APuerta);
+  }
+
+  if (Puerta == 1) {
+    EPuerta = 1;
+    Serial.println( "La puerta esta abierta");
+  } else {
+    EPuerta = 0;
+    Serial.println( "La puerta esta cerrada");
+  }
+
+  TiempoA = millis();
+  if ((TiempoA - TiempoP) < 15000) {
+    Serial.println( "Enviando datos al canal..." );
+    dataToPublish [Campo_Angulo] = APuerta;
+    dataToPublish [Campo_Lluvia] = ELluvia;
+    dataToPublish [Campo_Puerta] = EPuerta;
+    TiempoP = TiempoA;
+    delay(1100);
+    mqttPublish( writeChannelID, writeAPIKey, dataToPublish, fieldsToPublish );
+  }
+
+  Serial.println( "\n" );
+  TalkBack();
+  Serial.println( "\n\n" );
+
+
+
+
+
+
+}
+int connectWifi()
+{
+
+  while ( WiFi.status() != WL_CONNECTED ) {
+    delay( 500 );
+    Serial.println( "." );
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+
+}
+
+
+void mqttConnect()
+{
+  char clientID[ 9 ];
+
+  // Loop until connected.
+  while ( !mqttClient.connected() )
+  {
+
+    getID(clientID, 8);
+
+    // Connect to the MQTT broker.
+    //Serial.print( "Attempting MQTT connection..." );
+    if ( mqttClient.connect( clientID, mqttUserName, mqttPass ) )
+    {
+      //Serial.println( "Connected with Client ID:  " + String( clientID ) + " User " + String( mqttUserName ) + " Pwd " + String( mqttPass ) );
+
+    } else
+    {
+      Serial.print( "failed, rc = " );
+      // See https://pubsubclient.knolleary.net/api.html#state for the failure code explanation.
+      Serial.print( mqttClient.state() );
+      Serial.println( " Will try again in 5 seconds" );
+      delay( 5000 );
+    }
+  }
+}
+
+/**
+   Build a random client ID.
+     clientID - Character array for output
+     idLength - Length of clientID (actual length is one character longer for NULL)
+*/
+
+void getID(char clientID[], int idLength) {
+  static const char alphanum[] = "0123456789"
+                                 "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                 "abcdefghijklmnopqrstuvwxyz";                        // For random generation of the client ID.
+
+  // Generate client ID.
+  for (int i = 0; i < idLength ; i++) {
+    clientID[ i ] = alphanum[ random( 51 ) ];
+  }
+  clientID[ idLength ] = '\0';
+
+}
+
+
+
+void mqttPublish(long pubChannelID, char* pubWriteAPIKey, float dataArray[], int fieldArray[]) {
+  int index = 0;
+  String dataString = "";
+
+  updateRSSIValue();  // Make sure the stored value is updated.
+
+  //
+  while (index < 8) {
+
+    // Look at the field array to build the posting string to send to ThingSpeak.
+    if (fieldArray[ index ] > 0) {
+
+      dataString += "&field" + String( index + 1 ) + "=" + String( dataArray [ index ] );
+    }
+    index++;
+  }
+
+  //Serial.println( dataString );
+
+  // Create a topic string and publish data to ThingSpeak channel feed.
+  String topicString = "channels/" + String( pubChannelID ) + "/publish/" + String( pubWriteAPIKey );
+  mqttClient.publish( topicString.c_str(), dataString.c_str() );
+  Serial.println( "Datos publicados en el canal: " + String( pubChannelID ) );
+}
+
+
+
+void updateRSSIValue() {
+
+  long rssi = WiFi.RSSI();
+  Serial.print( "Intensidad de la senal de Wi-Fi:" );
+  Serial.println(rssi);
+  dataToPublish[ Campo_Data ] = float( rssi );
+
+}
+
+
+void TalkBack () {
+  String tbURI = String("/talkbacks/") + String(myTalkBackID) + String("/commands/execute");
+
+  // Create the message body for the POST out of the values
+  String postMessage =  String("api_key=") + String(myTalkBackKey);
+
+  // Make a string for any commands that might be in the queue
+  String newCommand = String();
+
+
+  // Make the POST to ThingSpeak
+  int x = httpPOST(tbURI, postMessage, newCommand);
+  //Serial.println("Esto es Ne C  " + String(newCommand));
+  client.stop();
+
+  // Check the result
+  if (x == 200) {
+    Serial.println("Verificando cola de TalkBack...");
+    // Check for a command returned from TalkBack
+    if (newCommand.length() != 5) {
+      //Serial.print("  Latest command from queue: ");
+      //Serial.println(newCommand);
+      int a = newCommand.indexOf("A");
+      int b = newCommand.indexOf("R");
+      int c = newCommand.indexOf("C");
+      int d = newCommand.indexOf("R");
+      int e = newCommand.indexOf("M");
+      int f = newCommand.indexOf("O");
+      String H = newCommand.substring(a, b + 3);
+      String I = newCommand.substring(c, d + 4);
+      String J = newCommand.substring(e, f + 1);
+
+
+      if (H == "ABRIR") {
+        Serial.print("  Abriendo ");
+        APuerta = 180;
+        CPuerta.write(APuerta);
+      }
+
+      if (I == "CERRAR") {
+        Serial.print("  Cerrando ");
+        APuerta = 0;
+        CPuerta.write(APuerta);
+      }
+      if (J == "MEDIO") {
+        Serial.print("  Mediando ");
+        APuerta = 90;
+        CPuerta.write(APuerta);
+      }
+    }
+    else {
+      Serial.println("  No hay comandos nuevos de TalkBack.");
+    }
+  }
+  else {
+    Serial.println("Problem checking queue. HTTP error code " + String(x));
+  }
+
+  delay(1100); // Wait 60 seconds to check queue again
+
+}
+
+
+int httpPOST(String uri, String postMessage, String &response) {
+
+  bool connectSuccess = false;
+  connectSuccess = client.connect("api.thingspeak.com", 80);
+
+  if (!connectSuccess) {
+    return -301;
+  }
+
+  postMessage += "&headers=false";
+
+  String Headers =  String("POST ") + uri + String(" HTTP/1.1\r\n") +
+                    String("Host: api.thingspeak.com\r\n") +
+                    String("Content-Type: application/x-www-form-urlencoded\r\n") +
+                    String("Connection: close\r\n") +
+                    String("Content-Length: ") + String(postMessage.length()) +
+                    String("\r\n\r\n");
+
+  client.print(Headers);
+  client.print(postMessage);
+
+  long startWaitForResponseAt = millis();
+  while (client.available() == 0 && millis() - startWaitForResponseAt < 5000) {
+    delay(100);
+  }
+
+  if (client.available() == 0) {
+    return -304; // Didn't get server response in time
+  }
+
+  if (!client.find(const_cast<char *>("HTTP/1.1"))) {
+    return -303; // Couldn't parse response (didn't find HTTP/1.1)
+  }
+
+  int status = client.parseInt();
+  if (status != 200) {
+    return status;
+  }
+
+  if (!client.find(const_cast<char *>("\n\r\n"))) {
+    return -303;
+  }
+
+  String tempString = String(client.readString());
+  response = tempString;
+  //Serial.println("Esto es response" +response);
+  return status;
+
+}
